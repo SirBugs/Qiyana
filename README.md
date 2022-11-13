@@ -4,6 +4,7 @@ Created with Py3, By TWITTER@SirBagoza
 
 # requirements:
 requests
+
 colorama
 
 # Running:
