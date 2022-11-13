@@ -64,15 +64,15 @@ options:
 
 	 ====================================================================================================
 
-	 [ ! ] 	Q_Method	 : GET
-	 [ ! ] 	Q_URL		 : https://megacorpone.com/
-	 [ ! ] 	Q_Worlist	 : /Users/sirbugs/Desktop/wordlist/httparchive_apiroutes_2022_09_28.txt [ 246858 ]
-	 [ ! ] 	Q_Timeout	 : 10
-	 [ ! ] 	Q_Threads	 : 20
-	 [ ! ] 	Q_Output	 : None
-	 [ ! ] 	Q_Header	 : NoHeadersSubmitted
+	 [ ! ] 	Q_Method	 : <REQUEST-METHOD>
+	 [ ! ] 	Q_URL		 : <URL>
+	 [ ! ] 	Q_Worlist	 : <PATH> [ <LIST-LINES] ]
+	 [ ! ] 	Q_Timeout	 : <TIMEOUT>
+	 [ ! ] 	Q_Threads	 : <THREADS>
+	 [ ! ] 	Q_Output	 : <OUTPUT-FILE>
+	 [ ! ] 	Q_Header	 : <HEADERS-FILE>
 	 [ ! ] 	Q_Targets	 : ['200', '204', '301', '302', '307', '401', '403', '405', '500']
-	 [ ! ] 	Q_REDIRECTION	 : False
+	 [ ! ] 	Q_REDIRECTION	 : <FOLLOW-REDIRECTS]
 
 	 ====================================================================================================
 
