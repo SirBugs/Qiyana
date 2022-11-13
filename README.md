@@ -105,3 +105,7 @@ git@github.com:SirBugs/Qiyana.git
 cd Qiyana
 pip install -r requirements.txt
 ```
+
+# About Me:
+
+Visit My [@Twitter](https://twitter.com/SirBagoza), [@Github](https://github.com/SirBugs), [@Hackerone](https://hackerone.com/bugsv2?type=user)
