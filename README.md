@@ -46,3 +46,62 @@ options:
   -s STATUS_CODES, --status_codes STATUS_CODES
                         if you wanna get more status codes send it (default=200,204,301,302,307,401,403,405,500)
 ```
+# Seeing after running:
+```
+		 $$$$$$\  $$\                                         
+		$$  __$$\ \__|                                        
+		$$ /  $$ |$$\ $$\   $$\  $$$$$$\  $$$$$$$\   $$$$$$\  
+		$$ |  $$ |$$ |$$ |  $$ | \____$$\ $$  __$$\  \____$$\ 
+		$$ |  $$ |$$ |$$ |  $$ | $$$$$$$ |$$ |  $$ | $$$$$$$ |
+		$$ $$\$$ |$$ |$$ |  $$ |$$  __$$ |$$ |  $$ |$$  __$$ |
+		\$$$$$$ / $$ |\$$$$$$$ |\$$$$$$$ |$$ |  $$ |\$$$$$$$ |
+		 \___$$$\ \__| \____$$ | \_______|\__|  \__| \_______|
+		     \___|    $$\   $$ |                              
+		              \$$$$$$  |                              
+		               \______/                               
+		 V 0.0.1
+
+	 ====================================================================================================
+
+	 [ ! ] 	Q_Method	 : GET
+	 [ ! ] 	Q_URL		 : https://megacorpone.com/
+	 [ ! ] 	Q_Worlist	 : /Users/sirbugs/Desktop/wordlist/httparchive_apiroutes_2022_09_28.txt [ 246858 ]
+	 [ ! ] 	Q_Timeout	 : 10
+	 [ ! ] 	Q_Threads	 : 20
+	 [ ! ] 	Q_Output	 : None
+	 [ ! ] 	Q_Header	 : NoHeadersSubmitted
+	 [ ! ] 	Q_Targets	 : ['200', '204', '301', '302', '307', '401', '403', '405', '500']
+	 [ ! ] 	Q_REDIRECTION	 : False
+
+	 ====================================================================================================
+
+	 [WAR] This tool is for hunters and pentesters, Don't use it for anything else.
+	 [WAR] Today's Advice: Never ask your gf/bestfiriend for nudes bro
+	 [WAR] This is the first version of the tool and you may find problems or errors, contact me at @SirBagoza
+	 [DOT] Once you run this tool, it's gonna start fuzzing the the directories in your wordlist path
+	 [DOT] Check if you wanna save the output in a .txt file by adding (-o [file.txt)
+	 [DOT] If you wanna use proxies, Make sure you are using (-p) and (-pp) together
+	 [DOT] For submitting headers, Enter them in .txt file separated by new line\n
+
+	 [INF] We all love the president @AbdelfattahElsisi cuz we are egyptians
+	 [INF] Go find more projects/tools on GITHUB@SirBugs
+	 [INF] Visit my TWITTER@SirBagoza HackerOne/BugCrowd@bugsv2 
+
+	 ====================================================================================================
+```
+# Seutp:
+* For manual installation, The tool link is: [Qiyana Github](https://github.com/SirBugs/Qiyana/)
+
+* Installing with clone
+```
+git clone https://github.com/SirBugs/Qiyana.git
+```
+* Installing with SSH
+```
+git@github.com:SirBugs/Qiyana.git
+```
+* Installing the dependencies in a virtualenv
+```
+cd Qiyana
+pip install -r requirements.txt
+```
