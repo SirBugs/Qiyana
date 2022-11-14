@@ -32,6 +32,7 @@ parser.add_argument("-U", "--uniq", help="this switch if you wanna grap uniq con
 parser.add_argument("-x", "--timeout", help="this is asking for request timeout (default=10)")
 parser.add_argument("-t", "--threads", help="enter count of threads per second (default=20)")
 parser.add_argument("-P", "--isparam", help="turn this on if you wanna fuzz param")
+parser.add_argument("-S", "--issub", help="turn this on if you wanna fuzz subdomains")
 parser.add_argument("-H", "--header", help=".txt file, if you wanna enter specific header into the request")
 parser.add_argument("-F", "--filter", help="this filter is checking your conditions [length:300/lines:50/word:success")
 parser.add_argument("-o", "--output", help="saving the output of the fuzzed paths/params")
@@ -178,6 +179,10 @@ def FUZZ_URL_DIRECTORY(_KEY):
 			if _URI[-1] == "/": _URI = _URI[: -1]
 			if _KEY[0] == "/": _KEY = _KEY[1:]
 			_URL_ = _URI + _KEY + str(args.isparam) + "=QQIIYYAANNAA"
+		elif str(args.issub) != "None":
+			if _URI[-1] == "/": _URI = _URI[: -1]
+			if _KEY[0] == "/": _KEY = _KEY[1:]
+			_URL_ = "https://" + _KEY + "." + _URI.replace("https://","")
 		else:
 			if _URI[-1] == "/": _URI = _URI[: -1]
 			if _KEY[0] == "/": _KEY = _KEY[1:]
@@ -250,7 +255,9 @@ def FUZZ_URL_DIRECTORY(_KEY):
 				if "QQIIYYAANNAA" in str(_CONTENT): QIYANA_STATUS = "Redflected"
 				else: QIYANA_STATUS = ""
 
-				if str(len(_CONTENT)) in _MY_GRAPPED_CONTENTS and _UNIQ != "None": break
+				if str(len(_CONTENT)) in _MY_GRAPPED_CONTENTS and _UNIQ != "None":
+					print("A")
+					break
 				else:
 					# PARAM["QQIIYYAANNAA"]
 					if _OUTPUT != "None":
@@ -266,11 +273,8 @@ def FUZZ_URL_DIRECTORY(_KEY):
 
 					break
 			except:
+				#print("Passed: " + _URL_)
 				pass
-
-#! -----------------------------------------------------------------------------------------------------------------
-
-
 
 #! -----------------------------------------------------------------------------------------------------------------
 
@@ -296,5 +300,3 @@ def main():
 main()
 
 print("\n\n")
-
-
