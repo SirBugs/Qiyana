@@ -223,60 +223,34 @@ def FUZZ_URL_DIRECTORY(_KEY):
 
 				_CONTENT = r.content
 
-				# STATUS
 				if str(r.status_code) in _SCODES: Coloring_StatusCode = Fore.GREEN
 				else: Coloring_StatusCode = Fore.RED
-
-				# TIME
 				CurrentTime = datetime.now().strftime("%H:%M:%S")
-
-				# Length
 				Length = str(len(_CONTENT))
-
-				#Lines
 				Lines = "0"
 				if "\n" in str(_CONTENT): Lines = str(_CONTENT).split("\n")
 				else: Lines = "0"
-
-				# URL
-				# _URL_
-
-				# PROXY
-				PRX_CONTENT = ""
+				PRX_CONTENT = ""; _FILTER_Applied = ""
 				if _PROXY != "None": PRX_CONTENT = rand_proxy
-
-				# FILTER
-				_FILTER_Applied = ""
 				if _FILTER != "None":
 					if "length-" in _FILTER:
 						wanted_length = _FILTER.split("length-")[1]
-						if int(wanted_length) < len(_CONTENT):
-							_FILTER_Applied = "Length: Applied"
-						else:
-							_FILTER_Applied = ""
+						if int(wanted_length) < len(_CONTENT): _FILTER_Applied = "Length: Applied"
+						else: _FILTER_Applied = ""
 					elif "lines-" in _FILTER:
 						wanted_lines = _FILTER.split("lines-")[1]
-						if int(wanted_lines) < len(str(_CONTENT).split("\n")):
-							_FILTER_Applied = "Lines: Applied"
-						else:
-							_FILTER_Applied = ""
+						if int(wanted_lines) < len(str(_CONTENT).split("\n")): _FILTER_Applied = "Lines: Applied"
+						else: _FILTER_Applied = ""
 					elif "word-" in _FILTER:
 						wanted_word = _FILTER.split("word-")[1]
-						if wanted_word in str(_CONTENT):
-							_FILTER_Applied = "Found: "+wanted_word
-						else:
-							_FILTER_Applied = ""
-					else:
-						AAA = ""
+						if wanted_word in str(_CONTENT): _FILTER_Applied = "Found: "+wanted_word
+						else: _FILTER_Applied = ""
+					else: AAA = ""
 
-				if "QQIIYYAANNAA" in str(_CONTENT):
-					QIYANA_STATUS = "Redflected"
-				else:
-					QIYANA_STATUS = ""
+				if "QQIIYYAANNAA" in str(_CONTENT): QIYANA_STATUS = "Redflected"
+				else: QIYANA_STATUS = ""
 
-				if str(len(_CONTENT)) in _MY_GRAPPED_CONTENTS and _UNIQ != "None":
-					#print("Passed, Duplicated Length")
-					break
+				if str(len(_CONTENT)) in _MY_GRAPPED_CONTENTS and _UNIQ != "None": break
 				else:
 					# PARAM["QQIIYYAANNAA"]
 					if _OUTPUT != "None":
