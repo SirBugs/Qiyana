@@ -86,6 +86,10 @@ def OPTIONS():
 	print("\t "+Fore.WHITE+"["+Fore.RED+"WAR"+Fore.WHITE+"] "+Fore.CYAN+"This is the first version of the tool and you may find problems or errors, contact me at @SirBagoza"); time.sleep(0.1)
 	print("\t "+Fore.WHITE+"["+Fore.MAGENTA+"DOT"+Fore.WHITE+"] "+Fore.WHITE+"Once you run this tool, it's gonna start fuzzing the the directories in your wordlist path"); time.sleep(0.1)
 	print("\t "+Fore.WHITE+"["+Fore.MAGENTA+"DOT"+Fore.WHITE+"] "+Fore.CYAN+"Check if you wanna save the output in a .txt file by adding (-o [file.txt)"); time.sleep(0.1)
+	print("\t "+Fore.WHITE+"["+Fore.MAGENTA+"DOT"+Fore.WHITE+"] "+Fore.WHITE+"If you are looking for subdomains fuzzing use -S y"); time.sleep(0.1)
+	print("\t "+Fore.WHITE+"["+Fore.MAGENTA+"DOT"+Fore.WHITE+"] "+Fore.CYAN+"If you gonna use params fuzzing enter the url like: https://<DOMAIN>/api.php? -P y"); time.sleep(0.1)
+	print("\t "+Fore.WHITE+"["+Fore.MAGENTA+"DOT"+Fore.WHITE+"] "+Fore.WHITE+"If site keeps replying with 404/home source, Use -U y This grap NonDuplicated length"); time.sleep(0.1)
+	print("\t "+Fore.WHITE+"["+Fore.MAGENTA+"DOT"+Fore.WHITE+"] "+Fore.CYAN+"To use the filters options run -F length-10 (or) -F lines-10 (or) 0F word-successful"); time.sleep(0.1)
 	print("\t "+Fore.WHITE+"["+Fore.MAGENTA+"DOT"+Fore.WHITE+"] "+Fore.WHITE+"If you wanna use proxies, Make sure you are using (-p) and (-pp) together"); time.sleep(0.1)
 	print("\t "+Fore.WHITE+"["+Fore.MAGENTA+"DOT"+Fore.WHITE+"] "+Fore.CYAN+"For submitting headers, Enter them in .txt file separated by new line\\n\n"); time.sleep(0.1)
 	print("\t "+Fore.WHITE+"["+Fore.BLUE+"INF"+Fore.WHITE+"] "+Fore.WHITE+"We all love the president @AbdelfattahElsisi cuz we are egyptians"); time.sleep(0.1)
@@ -226,14 +230,14 @@ def FUZZ_URL_DIRECTORY(_KEY):
 				elif str(args.method) == "PATCH": r = REQ.patch(_URL_)
 				else: r = REQ.get(_URL_)
 
-				_CONTENT = r.content
+				_CONTENT = r.text
 
 				if str(r.status_code) in _SCODES: Coloring_StatusCode = Fore.GREEN
 				else: Coloring_StatusCode = Fore.RED
 				CurrentTime = datetime.now().strftime("%H:%M:%S")
 				Length = str(len(_CONTENT))
 				Lines = "0"
-				if "\n" in str(_CONTENT): Lines = str(_CONTENT).split("\n")
+				if "\n" in str(_CONTENT): Lines = len(str(_CONTENT).split("\n"))
 				else: Lines = "0"
 				PRX_CONTENT = ""; _FILTER_Applied = ""
 				if _PROXY != "None": PRX_CONTENT = rand_proxy
@@ -256,17 +260,17 @@ def FUZZ_URL_DIRECTORY(_KEY):
 				else: QIYANA_STATUS = ""
 
 				if str(len(_CONTENT)) in _MY_GRAPPED_CONTENTS and _UNIQ != "None":
-					print("A")
 					break
 				else:
 					# PARAM["QQIIYYAANNAA"]
 					if _OUTPUT != "None":
-						pattern = str(r.status_code) + " - " + CurrentTime + " - Length: " + Length + " - Lines: " + Lines + " - " + _URL_ + " - Proxy: " + PRX_CONTENT + " - Filter-> " + _FILTER_Applied + " - ParamReflection: " + QIYANA_STATUS
-						file = open(_OUTPUT, "a+")
-						file.write(pattern + "\n")
-						file.close()
+						if str(r.status_code) in _SCODES or _FILTER_Applied != "" or QIYANA_STATUS != "":
+							pattern = str(r.status_code) + " - " + CurrentTime + " - Length: " + Length + " - Lines: " + Lines + " - " + _URL_ + " - Proxy: " + PRX_CONTENT + " - Filter-> " + _FILTER_Applied + " - ParamReflection: " + QIYANA_STATUS
+							file = open(_OUTPUT, "a+")
+							file.write(pattern + "\n")
+							file.close()
 
-					print("\t "+Fore.YELLOW+"[ "+Coloring_StatusCode+str(r.status_code)+Fore.YELLOW+" ]\t [ "+Fore.CYAN+CurrentTime+Fore.YELLOW+" ]"+Fore.CYAN+" \t Length: "+Fore.YELLOW+Length+Fore.CYAN+", Line: "+Fore.YELLOW+Lines+"\t [ "+Fore.CYAN+_URL_+Fore.YELLOW+" ]\t [ "+Fore.CYAN+PRX_CONTENT+Fore.YELLOW+" ]\t [ "+Fore.CYAN+_FILTER_Applied+Fore.YELLOW+" ]\t [ "+Fore.CYAN+QIYANA_STATUS+Fore.YELLOW+" ]")
+					print("\t "+Fore.YELLOW+"[ "+Coloring_StatusCode+str(r.status_code)+Fore.YELLOW+" ]\t [ "+Fore.CYAN+str(CurrentTime)+Fore.YELLOW+" ]"+Fore.CYAN+" \t Length: "+Fore.YELLOW+str(Length)+Fore.CYAN+", Line: "+Fore.YELLOW+str(Lines)+"\t [ "+Fore.CYAN+_URL_+Fore.YELLOW+" ]\t [ "+Fore.CYAN+PRX_CONTENT+Fore.YELLOW+" ]\t [ "+Fore.CYAN+_FILTER_Applied+Fore.YELLOW+" ]\t [ "+Fore.CYAN+QIYANA_STATUS+Fore.YELLOW+" ]")
 					
 					if str(len(r.content)) in _MY_GRAPPED_CONTENTS: pass
 					else: _MY_GRAPPED_CONTENTS.append(str(len(r.content)))
@@ -274,7 +278,10 @@ def FUZZ_URL_DIRECTORY(_KEY):
 					break
 			except:
 				#print("Passed: " + _URL_)
-				pass
+				if str(args.issub) != "None":
+					break
+				else:
+					pass
 
 #! -----------------------------------------------------------------------------------------------------------------
 
@@ -300,3 +307,5 @@ def main():
 main()
 
 print("\n\n")
+
+
