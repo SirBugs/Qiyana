@@ -28,8 +28,10 @@ parser.add_argument("-w", "--wordlist", help="cookies of your pentesterlab accou
 parser.add_argument("-m", "--method", help="this selects the request method")
 parser.add_argument("-d", "--data", help="use this if you send data with your request")
 parser.add_argument("-f", "--follow", help="asking if you wanna follow redirects or not [y/n]")
+parser.add_argument("-U", "--uniq", help="this switch if you wanna grap uniq content-size (non duplicated) [y/n]")
 parser.add_argument("-x", "--timeout", help="this is asking for request timeout (default=10)")
 parser.add_argument("-t", "--threads", help="enter count of threads per second (default=20)")
+parser.add_argument("-P", "--isparam", help="turn this on if you wanna fuzz param")
 parser.add_argument("-H", "--header", help=".txt file, if you wanna enter specific header into the request")
 parser.add_argument("-F", "--filter", help="this filter is checking your conditions [length:300/lines:50/word:success")
 parser.add_argument("-o", "--output", help="saving the output of the fuzzed paths/params")
@@ -53,7 +55,7 @@ def LOGO():
 	print(Fore.CYAN+"\t\t     \___|    $$\   $$ |                              "); time.sleep(0.1)
 	print(Fore.WHITE+"\t\t              \$$$$$$  |                              "); time.sleep(0.1)
 	print(Fore.CYAN+"\t\t               \______/                               ")
-	print(Fore.CYAN+"\t\t V 0.0.1\n"); time.sleep(1)
+	print(Fore.CYAN+"\t\t V 0.0.2\n"); time.sleep(1)
 def OPTIONS():
 	global _REQUEST
 	global _URI
@@ -88,6 +90,7 @@ def OPTIONS():
 	print("\t "+Fore.WHITE+"["+Fore.BLUE+"INF"+Fore.WHITE+"] "+Fore.WHITE+"We all love the president @AbdelfattahElsisi cuz we are egyptians"); time.sleep(0.1)
 	print("\t "+Fore.WHITE+"["+Fore.BLUE+"INF"+Fore.WHITE+"] "+Fore.CYAN+"Go find more projects/tools on GITHUB@SirBugs"); time.sleep(0.1)
 	print("\t "+Fore.WHITE+"["+Fore.BLUE+"INF"+Fore.WHITE+"] "+Fore.WHITE+"Visit my TWITTER@SirBagoza HackerOne/BugCrowd@bugsv2 \n"); time.sleep(0.5)
+	print("\t "+Fore.WHITE+"["+Fore.GREEN+"UPDATE"+Fore.WHITE+"] "+Fore.CYAN+"**UPDATE: This Version is V 0.0.2 [14/11/2022] \n"); time.sleep(0.5)
 
 	print(Fore.WHITE+"\t " + "="*100 + "\r\n")
 
@@ -134,15 +137,19 @@ _FILTER = str(args.filter)
 
 _OUTPUT = str(args.output)
 
+_UNIQ   = str(args.uniq)
+
 _HEADER = str(args.header)
 
-_DATA = str(args.data)
+_DATA   = str(args.data)
 
-_PROXY = str(args.proxies)
+_PROXY  = str(args.proxies)
 if str(args.proxies) == "None" and str(args.proxies_type) == "None": _PROXY = str(args.proxies) # proxies_type
 elif str(args.proxies_type) == "None" and _PROXY != "None": pass
 elif str(args.proxies_type) != "None" and _PROXY == "None": pass
 else: _PROXY = open(str(args.proxies), "r").read().split("\n")
+
+_MY_GRAPPED_CONTENTS = []
 
 LOGO()
 OPTIONS()
@@ -162,13 +169,19 @@ def FUZZ_URL_DIRECTORY(_KEY):
 	global _PROXY
 	global _OUTPUT
 	global _HEADER
+	global _MY_GRAPPED_CONTENTS
 	# SETUP FINAL URL
 	if _KEY == "":
 		pass
 	else:
-		if _URI[-1] == "/": _URI = _URI[: -1]
-		if _KEY[0] == "/": _KEY = _KEY[1:]
-		_URL_ = _URI + "/" + _KEY
+		if str(args.isparam) != "None":
+			if _URI[-1] == "/": _URI = _URI[: -1]
+			if _KEY[0] == "/": _KEY = _KEY[1:]
+			_URL_ = _URI + "/" + _KEY + "?" + str(args.isparam) + "=QQIIYYAANNAA"
+		else:
+			if _URI[-1] == "/": _URI = _URI[: -1]
+			if _KEY[0] == "/": _KEY = _KEY[1:]
+			_URL_ = _URI + "/" + _KEY
 		# REQUEST DETAILS
 		if _HEADER == "None":
 			headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:106.0) Gecko/20100101 Firefox/106.0"}
@@ -181,25 +194,25 @@ def FUZZ_URL_DIRECTORY(_KEY):
 					H_Name, H_Value = aheader.split(": ")
 					headers[H_Name] = H_Value
 		while 1:
-			try:
-				#! REQUEST IF FUNCTION
-				REQ = requests.Session()
-				REQ.headers = headers
-				REQ.verify  = False
-				REQ.timeout = _TIMEOUT
-				rand_proxy = ""
-				if _FOLLOW_REDIRECTS == "None": REQ.allow_redirects = False
-				else:
-					if _FOLLOW_REDIRECTS == "y": REQ.allow_redirects = True
-					else: REQ.allow_redirects = False
-				if _DATA == "None": pass
-				else: REQ.data = str(args.data)
-				if _PROXY == "None": pass
-				else:
-					rand_proxy = random.choice(_PROXY)
-					if str(args.proxies_type) == "http" or str(args.proxies_type) == "HTTP": REQ.proxies = {'http': rand_proxy, 'https': str(args.proxies_type)+'://'+rand_proxy}
-					else: REQ.proxies = {'http': rand_proxy, 'https': str(args.proxies_type)+'://'+rand_proxy}
+			#! REQUEST IF FUNCTION
+			REQ = requests.Session()
+			REQ.headers = headers
+			REQ.verify  = False
+			REQ.timeout = _TIMEOUT
+			rand_proxy = ""
+			if _FOLLOW_REDIRECTS == "None": REQ.allow_redirects = False
+			else:
+				if _FOLLOW_REDIRECTS == "y": REQ.allow_redirects = True
+				else: REQ.allow_redirects = False
+			if _DATA == "None": pass
+			else: REQ.data = str(args.data)
+			if _PROXY == "None": pass
+			else:
+				rand_proxy = random.choice(_PROXY)
+				if str(args.proxies_type) == "http" or str(args.proxies_type) == "HTTP": REQ.proxies = {'http': str(args.proxies_type)+'://'+rand_proxy, 'https': str(args.proxies_type)+'://'+rand_proxy}
+				else: REQ.proxies = {'http': str(args.proxies_type)+'://'+rand_proxy, 'https': str(args.proxies_type)+'://'+rand_proxy}
 
+			try:
 				if str(args.method) == "None" or str(args.method) == "GET": r = REQ.get(_URL_)
 				elif str(args.method) == "POST": r = REQ.post(_URL_)
 				elif str(args.method) == "PUT": r = REQ.put(_URL_)
@@ -208,58 +221,76 @@ def FUZZ_URL_DIRECTORY(_KEY):
 				elif str(args.method) == "PATCH": r = REQ.patch(_URL_)
 				else: r = REQ.get(_URL_)
 
-				if str(r.status_code) in _SCODES:
-					if _FILTER == "None":
-						print("\t "+Fore.YELLOW+"[ "+Fore.GREEN+str(r.status_code)+Fore.YELLOW+" ] "+Fore.CYAN+" \t Length: "+Fore.YELLOW+str(len(r.content))+Fore.CYAN+", Line: "+Fore.YELLOW+str(len(str(r.content).split("\\r\\n")))+"\t [ "+Fore.CYAN+_URL_+Fore.YELLOW+" ]"+Fore.YELLOW+"\t [ "+Fore.CYAN+rand_proxy+Fore.YELLOW+" ]")
-						if _OUTPUT == "None": pass
+				_CONTENT = r.content
+
+				# STATUS
+				if str(r.status_code) in _SCODES: Coloring_StatusCode = Fore.GREEN
+				else: Coloring_StatusCode = Fore.RED
+
+				# TIME
+				CurrentTime = datetime.now().strftime("%H:%M:%S")
+
+				# Length
+				Length = str(len(_CONTENT))
+
+				#Lines
+				Lines = "0"
+				if "\n" in str(_CONTENT): Lines = str(_CONTENT).split("\n")
+				else: Lines = "0"
+
+				# URL
+				# _URL_
+
+				# PROXY
+				PRX_CONTENT = ""
+				if _PROXY != "None": PRX_CONTENT = rand_proxy
+
+				# FILTER
+				_FILTER_Applied = ""
+				if _FILTER != "None":
+					if "length-" in _FILTER:
+						wanted_length = _FILTER.split("length-")[1]
+						if int(wanted_length) < len(_CONTENT):
+							_FILTER_Applied = "Length: Applied"
 						else:
-							file = open(_OUTPUT, "a+")
-							file.write(str(r.status_code) + " : " + _URL_ + "\n")
-							file.close()
+							_FILTER_Applied = ""
+					elif "lines-" in _FILTER:
+						wanted_lines = _FILTER.split("lines-")[1]
+						if int(wanted_lines) < len(str(_CONTENT).split("\n")):
+							_FILTER_Applied = "Lines: Applied"
+						else:
+							_FILTER_Applied = ""
+					elif "word-" in _FILTER:
+						wanted_word = _FILTER.split("word-")[1]
+						if wanted_word in str(_CONTENT):
+							_FILTER_Applied = "Found: "+wanted_word
+						else:
+							_FILTER_Applied = ""
 					else:
-						if "length:" in _FILTER:
-							wanted_length = _FILTER.split("length:")[1]
-							if len(r.content) > int(wanted_length):
-								print("\t "+Fore.YELLOW+"[ "+Fore.GREEN+str(r.status_code)+Fore.YELLOW+" ] "+Fore.CYAN+" \t Length: "+Fore.YELLOW+str(len(r.content))+Fore.CYAN+", Line: "+Fore.YELLOW+str(len(str(r.content).split("\\r\\n")))+"\t [ "+Fore.CYAN+_URL_+Fore.YELLOW+" ]"+Fore.YELLOW+"\t [ "+Fore.CYAN+rand_proxy+Fore.YELLOW+" ] [ Filter[Length] : "+Fore.RED+str(len(r.content))+Fore.YELLOW+" ]")
-								pass
-							else:
-								print("\t "+Fore.YELLOW+"[ "+Fore.GREEN+str(r.status_code)+Fore.YELLOW+" ] "+Fore.CYAN+" \t Length: "+Fore.YELLOW+str(len(r.content))+Fore.CYAN+", Line: "+Fore.YELLOW+str(len(str(r.content).split("\\r\\n")))+"\t [ "+Fore.CYAN+_URL_+Fore.YELLOW+" ]"+Fore.YELLOW+"\t [ "+Fore.CYAN+rand_proxy+Fore.YELLOW+" ] [ Filter[Length] : "+Fore.GREEN+str(len(r.content))+Fore.YELLOW+" ]")
-								if _OUTPUT == "None": pass
-								else:
-									file = open(_OUTPUT, "a+")
-									file.write(str(r.status_code) + " : " + _URL_ + "\n")
-									file.close()
-						elif "lines:" in _FILTER:
-							wanted_lines = _FILTER.split("lines:")[1]
-							if len(str(r.content).split("\\r\\n")) > int(wanted_lines):
-								print("\t "+Fore.YELLOW+"[ "+Fore.GREEN+str(r.status_code)+Fore.YELLOW+" ] "+Fore.CYAN+" \t Length: "+Fore.YELLOW+str(len(r.content))+Fore.CYAN+", Line: "+Fore.YELLOW+str(len(str(r.content).split("\\r\\n")))+"\t [ "+Fore.CYAN+_URL_+Fore.YELLOW+" ]"+Fore.YELLOW+"\t [ "+Fore.CYAN+rand_proxy+Fore.YELLOW+" ] [ Filter[Lines] : "+Fore.RED+str(len(str(r.content).split("\\r\\n")))+Fore.YELLOW+" ]")
-								pass
-							else:
-								print("\t "+Fore.YELLOW+"[ "+Fore.GREEN+str(r.status_code)+Fore.YELLOW+" ] "+Fore.CYAN+" \t Length: "+Fore.YELLOW+str(len(r.content))+Fore.CYAN+", Line: "+Fore.YELLOW+str(len(str(r.content).split("\\r\\n")))+"\t [ "+Fore.CYAN+_URL_+Fore.YELLOW+" ]"+Fore.YELLOW+"\t [ "+Fore.CYAN+rand_proxy+Fore.YELLOW+" ] [ Filter[Lines] : "+Fore.GREEN+str(len(str(r.content).split("\\r\\n")))+Fore.YELLOW+" ]")
-								if _OUTPUT == "None": pass
-								else:
-									file = open(_OUTPUT, "a+")
-									file.write(str(r.status_code) + " : " + _URL_ + "\n")
-									file.close()
-						elif "word:" in _FILTER:
-							wanted_word = _FILTER.split("word:")[1]
-							if wanted_word in r.content:
-								print("\t "+Fore.YELLOW+"[ "+Fore.GREEN+str(r.status_code)+Fore.YELLOW+" ] "+Fore.CYAN+" \t Length: "+Fore.YELLOW+str(len(r.content))+Fore.CYAN+", Line: "+Fore.YELLOW+str(len(str(r.content).split("\\r\\n")))+"\t [ "+Fore.CYAN+_URL_+Fore.YELLOW+" ]"+Fore.YELLOW+"\t [ "+Fore.CYAN+rand_proxy+Fore.YELLOW+" ] [ Filter[Word] : "+Fore.GREEN+wanted_word+Fore.YELLOW+" ]")
-								if _OUTPUT == "None": pass
-								else:
-									file = open(_OUTPUT, "a+")
-									file.write(str(r.status_code) + " : " + _URL_ + "\n")
-									file.close()
-							else:
-								print("\t "+Fore.YELLOW+"[ "+Fore.GREEN+str(r.status_code)+Fore.YELLOW+" ] "+Fore.CYAN+" \t Length: "+Fore.YELLOW+str(len(r.content))+Fore.CYAN+", Line: "+Fore.YELLOW+str(len(str(r.content).split("\\r\\n")))+"\t [ "+Fore.CYAN+_URL_+Fore.YELLOW+" ]"+Fore.YELLOW+"\t [ "+Fore.CYAN+rand_proxy+Fore.YELLOW+" ] [ Filter[Word] : "+Fore.GREEN+wanted_word+Fore.YELLOW+" ]")
-						else:
-							print("?")
-							quit()
+						AAA = ""
+				if str(len(_CONTENT)) in _MY_GRAPPED_CONTENTS and _UNIQ != "None":
+					#print("Passed, Duplicated Length")
+					break
 				else:
-					print("\t "+Fore.YELLOW+"[ "+Fore.RED+str(r.status_code)+Fore.YELLOW+" ] "+Fore.CYAN+" \t Length: "+Fore.YELLOW+str(len(_URL_))+Fore.CYAN+", Line: "+Fore.YELLOW+str(len(str(r.content).split("\\r\\n")))+"\t [ "+Fore.CYAN+_URL_+Fore.YELLOW+" ]\t [ "+Fore.CYAN+rand_proxy+Fore.YELLOW+" ]")
-				break
+					# PARAM["QQIIYYAANNAA"]
+					if _OUTPUT != "None":
+						pattern = str(r.status_code) + " - " + CurrentTime + " - Length: " + Length + " - Lines: " + Lines + " - " + _URL_ + " - Proxy: " + PRX_CONTENT + " - Filter-> " + _FILTER_Applied 
+						file = open(_OUTPUT, "a+")
+						file.write(pattern + "\n")
+						file.close()
+
+					print("\t "+Fore.YELLOW+"[ "+Coloring_StatusCode+str(r.status_code)+Fore.YELLOW+" ]\t [ "+Fore.CYAN+CurrentTime+Fore.YELLOW+" ]"+Fore.CYAN+" \t Length: "+Fore.YELLOW+Length+Fore.CYAN+", Line: "+Fore.YELLOW+Lines+"\t [ "+Fore.CYAN+_URL_+Fore.YELLOW+" ]\t [ "+Fore.CYAN+PRX_CONTENT+Fore.YELLOW+" ]\t [ "+Fore.CYAN+_FILTER_Applied+Fore.YELLOW+" ]")
+					
+					if str(len(r.content)) in _MY_GRAPPED_CONTENTS: pass
+					else: _MY_GRAPPED_CONTENTS.append(str(len(r.content)))
+					
+					break
 			except:
 				pass
+
+#! -----------------------------------------------------------------------------------------------------------------
+
+
 
 #! -----------------------------------------------------------------------------------------------------------------
 
