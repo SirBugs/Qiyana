@@ -111,7 +111,9 @@ pip install -r requirements.txt
 * You can get wordlists from [SecLists](https://github.com/danielmiessler/SecLists)
 
 # Version:
-* First Version 0.0.1 (13/11/2022)
+* Version 0.0.1 (13/11/2022) : Came Out <3
+* Version 0.0.2 (14/11/2022) : Added Time, Parameters Fuzzing(Reflection), Faster, Uniq(NonDuplicated) Content Length <3
+
 
 # About Me:
 Visit My [@Twitter](https://twitter.com/SirBagoza), [@Github](https://github.com/SirBugs), [@Hackerone](https://hackerone.com/bugsv2?type=user)
