@@ -177,7 +177,7 @@ def FUZZ_URL_DIRECTORY(_KEY):
 		if str(args.isparam) != "None":
 			if _URI[-1] == "/": _URI = _URI[: -1]
 			if _KEY[0] == "/": _KEY = _KEY[1:]
-			_URL_ = _URI + "/" + _KEY + "?" + str(args.isparam) + "=QQIIYYAANNAA"
+			_URL_ = _URI + _KEY + str(args.isparam) + "=QQIIYYAANNAA"
 		else:
 			if _URI[-1] == "/": _URI = _URI[: -1]
 			if _KEY[0] == "/": _KEY = _KEY[1:]
@@ -268,22 +268,28 @@ def FUZZ_URL_DIRECTORY(_KEY):
 							_FILTER_Applied = ""
 					else:
 						AAA = ""
+
+				if "QQIIYYAANNAA" in str(_CONTENT):
+					QIYANA_STATUS = "Redflected"
+				else:
+					QIYANA_STATUS = ""
+
 				if str(len(_CONTENT)) in _MY_GRAPPED_CONTENTS and _UNIQ != "None":
 					#print("Passed, Duplicated Length")
 					break
 				else:
 					# PARAM["QQIIYYAANNAA"]
 					if _OUTPUT != "None":
-						pattern = str(r.status_code) + " - " + CurrentTime + " - Length: " + Length + " - Lines: " + Lines + " - " + _URL_ + " - Proxy: " + PRX_CONTENT + " - Filter-> " + _FILTER_Applied 
+						pattern = str(r.status_code) + " - " + CurrentTime + " - Length: " + Length + " - Lines: " + Lines + " - " + _URL_ + " - Proxy: " + PRX_CONTENT + " - Filter-> " + _FILTER_Applied + " - ParamReflection: " + QIYANA_STATUS
 						file = open(_OUTPUT, "a+")
 						file.write(pattern + "\n")
 						file.close()
 
-					print("\t "+Fore.YELLOW+"[ "+Coloring_StatusCode+str(r.status_code)+Fore.YELLOW+" ]\t [ "+Fore.CYAN+CurrentTime+Fore.YELLOW+" ]"+Fore.CYAN+" \t Length: "+Fore.YELLOW+Length+Fore.CYAN+", Line: "+Fore.YELLOW+Lines+"\t [ "+Fore.CYAN+_URL_+Fore.YELLOW+" ]\t [ "+Fore.CYAN+PRX_CONTENT+Fore.YELLOW+" ]\t [ "+Fore.CYAN+_FILTER_Applied+Fore.YELLOW+" ]")
+					print("\t "+Fore.YELLOW+"[ "+Coloring_StatusCode+str(r.status_code)+Fore.YELLOW+" ]\t [ "+Fore.CYAN+CurrentTime+Fore.YELLOW+" ]"+Fore.CYAN+" \t Length: "+Fore.YELLOW+Length+Fore.CYAN+", Line: "+Fore.YELLOW+Lines+"\t [ "+Fore.CYAN+_URL_+Fore.YELLOW+" ]\t [ "+Fore.CYAN+PRX_CONTENT+Fore.YELLOW+" ]\t [ "+Fore.CYAN+_FILTER_Applied+Fore.YELLOW+" ]\t [ "+Fore.CYAN+QIYANA_STATUS+Fore.YELLOW+" ]")
 					
 					if str(len(r.content)) in _MY_GRAPPED_CONTENTS: pass
 					else: _MY_GRAPPED_CONTENTS.append(str(len(r.content)))
-					
+
 					break
 			except:
 				pass
