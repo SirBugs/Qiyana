@@ -121,7 +121,10 @@ pip install -r requirements.txt
 ```
 
 # Help:
-* You can get wordlists from [SecLists](https://github.com/danielmiessler/SecLists)
+* You can get wordlists from:
+* [SecLists](https://github.com/danielmiessler/SecLists)
+* [fuzz-](https://github.com/yige666/fuzz-)
+* [fuzzing](https://github.com/SooLFaa/fuzzing)
 
 # Version:
 * Version 0.0.1 (13/11/2022) : Came Out <3
