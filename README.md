@@ -18,7 +18,9 @@ python3 Qiyana.py -u <URL> -w <WORDLIST-PATH>
 # --url=https://megacorpone.com/ --wordlist=/usr/Users/<USER>/Desktop/wordlist.txt
 ```
 ```
-usage: Qiyana.py [-h] [-u URL] [-w WORDLIST] [-m METHOD] [-d DATA] [-f FOLLOW] [-x TIMEOUT] [-t THREADS] [-H HEADER] [-F FILTER] [-o OUTPUT] [-p PROXIES] [-pp PROXIES_TYPE] [-s STATUS_CODES]
+usage: Qiyana.py [-h] [-u URL] [-w WORDLIST] [-m METHOD] [-d DATA] [-f FOLLOW] [-U UNIQ] [-x TIMEOUT] [-t THREADS]
+                 [-P ISPARAM] [-S ISSUB] [-H HEADER] [-F FILTER] [-o OUTPUT] [-p PROXIES] [-pp PROXIES_TYPE]
+                 [-s STATUS_CODES]
 
 options:
   -h, --help            show this help message and exit
@@ -30,10 +32,15 @@ options:
   -d DATA, --data DATA  use this if you send data with your request
   -f FOLLOW, --follow FOLLOW
                         asking if you wanna follow redirects or not [y/n]
+  -U UNIQ, --uniq UNIQ  this switch if you wanna grap uniq content-size (non duplicated) [y/n]
   -x TIMEOUT, --timeout TIMEOUT
                         this is asking for request timeout (default=10)
   -t THREADS, --threads THREADS
                         enter count of threads per second (default=20)
+  -P ISPARAM, --isparam ISPARAM
+                        turn this on if you wanna fuzz param
+  -S ISSUB, --issub ISSUB
+                        turn this on if you wanna fuzz subdomains
   -H HEADER, --header HEADER
                         .txt file, if you wanna enter specific header into the request
   -F FILTER, --filter FILTER
@@ -60,7 +67,7 @@ options:
 		     \___|    $$\   $$ |                              
 		              \$$$$$$  |                              
 		               \______/                               
-		 V 0.0.1
+		 V 0.0.2
 
 	 ====================================================================================================
 
@@ -81,12 +88,18 @@ options:
 	 [WAR] This is the first version of the tool and you may find problems or errors, contact me at @SirBagoza
 	 [DOT] Once you run this tool, it's gonna start fuzzing the the directories in your wordlist path
 	 [DOT] Check if you wanna save the output in a .txt file by adding (-o [file.txt)
+	 [DOT] If you are looking for subdomains fuzzing use -S y
+	 [DOT] If you gonna use params fuzzing enter the url like: https://<DOMAIN>/api.php? -P y
+	 [DOT] If site keeps replying with 404/home source, Use -U y This grap NonDuplicated length
+	 [DOT] To use the filters options run -F length-10 (or) -F lines-10 (or) 0F word-successful
 	 [DOT] If you wanna use proxies, Make sure you are using (-p) and (-pp) together
 	 [DOT] For submitting headers, Enter them in .txt file separated by new line\n
 
 	 [INF] We all love the president @AbdelfattahElsisi cuz we are egyptians
 	 [INF] Go find more projects/tools on GITHUB@SirBugs
 	 [INF] Visit my TWITTER@SirBagoza HackerOne/BugCrowd@bugsv2 
+
+	 [UPDATE] **UPDATE: This Version is V 0.0.2 [14/11/2022] 
 
 	 ====================================================================================================
 ```
