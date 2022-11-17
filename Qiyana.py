@@ -70,17 +70,19 @@ def OPTIONS():
 	global _PROXY
 	global _OUTPUT
 	global _HEADER
+	global _REPORT
 	print(Fore.WHITE+"\t " + "="*100 + "\r\n"); time.sleep(0.1)
 	print("\t "+Fore.CYAN+"[ ! ] \tQ_Method\t : "+_REQUEST); time.sleep(0.1)
 	print("\t "+Fore.WHITE+"[ ! ] \tQ_URL\t\t : "+_URI); time.sleep(0.1)
 	print("\t "+Fore.CYAN+"[ ! ] \tQ_Worlist\t : "+_WORDLIST+Fore.RED+" [ "+str(len(open(_WORDLIST, "r").read().split("\n")))+" ]"); time.sleep(0.1)
-	print("\t "+Fore.WHITE+"[ ! ] \tQ_Timeout\t : "+str(_TIMEOUT)); time.sleep(0.1)
-	print("\t "+Fore.CYAN+"[ ! ] \tQ_Threads\t : "+str(_THREADS)); time.sleep(0.1)
-	print("\t "+Fore.WHITE+"[ ! ] \tQ_Output\t : "+str(_OUTPUT)); time.sleep(0.1)
-	if str(_HEADER) == "None": print("\t "+Fore.CYAN+"[ ! ] \tQ_Header\t : NoHeadersSubmitted")
-	else: print("\t "+Fore.CYAN+"[ ! ] \tQ_Header\t : HeadersApplied")
-	print("\t "+Fore.WHITE+"[ ! ] \tQ_Targets\t : "+str(_SCODES)); time.sleep(0.1)
-	print("\t "+Fore.CYAN+"[ ! ] \tQ_REDIRECTION\t : "+_FOLLOW_REDIRECTS+"\n"); time.sleep(0.1)
+	print("\t "+Fore.WHITE+"[ ! ] \tQ_Report\t : "+str(_REPORT)); time.sleep(0.1)
+	print("\t "+Fore.CYAN+"[ ! ] \tQ_Timeout\t : "+str(_TIMEOUT)); time.sleep(0.1)
+	print("\t "+Fore.WHITE+"[ ! ] \tQ_Threads\t : "+str(_THREADS)); time.sleep(0.1)
+	print("\t "+Fore.CYAN+"[ ! ] \tQ_Output\t : "+str(_OUTPUT)); time.sleep(0.1)
+	if str(_HEADER) == "None": print("\t "+Fore.WHITE+"[ ! ] \tQ_Header\t : NoHeadersSubmitted")
+	else: print("\t "+Fore.WHITE+"[ ! ] \tQ_Header\t : HeadersApplied")
+	print("\t "+Fore.CYAN+"[ ! ] \tQ_Targets\t : "+str(_SCODES)); time.sleep(0.1)
+	print("\t "+Fore.WHITE+"[ ! ] \tQ_REDIRECTION\t : "+_FOLLOW_REDIRECTS+"\n"); time.sleep(0.1)
 	print(Fore.WHITE+"\t " + "="*100 + "\r\n"); time.sleep(0.3)
 	print("\t "+Fore.WHITE+"["+Fore.RED+"WAR"+Fore.WHITE+"] "+Fore.CYAN+"This tool is for hunters and pentesters, Don't use it for anything else."); time.sleep(0.1)
 	print("\t "+Fore.WHITE+"["+Fore.RED+"WAR"+Fore.WHITE+"] "+Fore.WHITE+"Today's Advice: Never ask your gf/bestfiriend for nudes bro"); time.sleep(0.1)
@@ -179,6 +181,7 @@ def FUZZER(_KEY):
 	global _OUTPUT
 	global _HEADER
 	global _MY_GRAPPED_CONTENTS
+	global _REPORT
 	# SETUP FINAL URL
 	if _KEY == "":
 		pass
@@ -273,22 +276,21 @@ def FUZZER(_KEY):
 							file = open(_OUTPUT, "a+")
 							file.write(pattern + "\n")
 							file.close()
-							if _REPORT != "None":
-								if "telegram@" in _REPORT:
-									Chat_ID = _REPORT.split("telegram@")[1]
-									_R = requests.get("https://api.telegram.org/bot5619397195:AAG-d2AEOqAX1KMoB_u1DJiWK4rU61IjN0c/sendMessage?chat_id="+Chat_ID+"&parse_mode=Markdown&text="+pattern)
-								elif "discord@" in _REPORT:
-									Webhook = _REPORT.split("discord@")[1]
-									_D = {"content": pattern}
-									_R = requests.post("https://discord.com/api/webhooks/"+Webhook)
-								else:
-									pass
+					if _REPORT != "None":
+						pattern = str(r.status_code) + " - " + CurrentTime + " - Length: " + Length + " - Lines: " + Lines + " - " + _URL_ + " - Proxy: " + PRX_CONTENT + " - Filter-> " + _FILTER_Applied + " - ParamReflection: " + QIYANA_STATUS
+						if "telegram@" in _REPORT:
+							Chat_ID = _REPORT.split("telegram@")[1]
+							_R = requests.get("https://api.telegram.org/bot5619397195:AAG-d2AEOqAX1KMoB_u1DJiWK4rU61IjN0c/sendMessage?chat_id="+Chat_ID+"&parse_mode=Markdown&text="+pattern)
+						elif "discord@" in _REPORT:
+							Webhook = _REPORT.split("discord@")[1]
+							_D = {"content": pattern}
+							_R = requests.post("https://discord.com/api/webhooks/"+Webhook)
+						else:
+							pass
 
 					print("\t "+Fore.YELLOW+"[ "+Coloring_StatusCode+str(r.status_code)+Fore.YELLOW+" ]\t [ "+Fore.CYAN+str(CurrentTime)+Fore.YELLOW+" ]"+Fore.CYAN+" \t Length: "+Fore.YELLOW+str(Length)+Fore.CYAN+", Line: "+Fore.YELLOW+str(Lines)+"\t [ "+Fore.CYAN+_URL_+Fore.YELLOW+" ]\t [ "+Fore.CYAN+PRX_CONTENT+Fore.YELLOW+" ]\t [ "+Fore.CYAN+_FILTER_Applied+Fore.YELLOW+" ]\t [ "+Fore.CYAN+QIYANA_STATUS+Fore.YELLOW+" ]")
-					
 					if str(len(r.content)) in _MY_GRAPPED_CONTENTS: pass
 					else: _MY_GRAPPED_CONTENTS.append(str(len(r.content)))
-
 					break
 			except:
 				#print("Passed: " + _URL_)
