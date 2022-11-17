@@ -109,15 +109,12 @@ def OPTIONS():
 if str(args.method) == "None": _REQUEST = "GET"
 else: _REQUEST = str(args.method)
 
-if str(args.url) == "None":
+if str(args.url) == "None" or str(args.wordlist) == "None":
 	print("Please read the help docs by running:\n\t\t  Qiyana.py -h / Qiyana.py --help\n\t\tRun as: Qiyana.py -u <URL> -w <WORDLIST>")
 	quit()
-else: _URI = str(args.url)
-
-if str(args.wordlist) == "None":
-	print("Please read the help docs by running:\n\t\t  Qiyana.py -h / Qiyana.py --help\n\t\tRun as: Qiyana.py -u <URL> -w <WORDLIST>")
-	quit()
-else: _WORDLIST = str(args.wordlist)
+else:
+	_URI = str(args.url)
+	_WORDLIST = str(args.wordlist)
 
 if str(args.timeout) == "None": _TIMEOUT = 10
 else: _TIMEOUT = int(str(args.timeout))
