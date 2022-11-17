@@ -77,7 +77,7 @@ options:
 	 [ ! ] 	Q_URL		 : <URL>
 	 [ ! ] 	Q_Worlist	 : <PATH> [ <LIST-LINES] ]
 	 [ ! ] 	Q_Timeout	 : <TIMEOUT>
-	 [ ! ] 	Q_Report	 : <TIMEOUT>
+	 [ ! ] 	Q_Report	 : <REPORT>
 	 [ ! ] 	Q_Threads	 : <THREADS>
 	 [ ! ] 	Q_Output	 : <OUTPUT-FILE>
 	 [ ! ] 	Q_Header	 : <HEADERS-FILE>
