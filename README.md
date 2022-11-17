@@ -19,8 +19,8 @@ python3 Qiyana.py -u <URL> -w <WORDLIST-PATH>
 ```
 ```
 usage: Qiyana.py [-h] [-u URL] [-w WORDLIST] [-m METHOD] [-d DATA] [-f FOLLOW] [-U UNIQ] [-x TIMEOUT] [-t THREADS]
-                 [-P ISPARAM] [-S ISSUB] [-H HEADER] [-F FILTER] [-o OUTPUT] [-p PROXIES] [-pp PROXIES_TYPE]
-                 [-s STATUS_CODES]
+                 [-P ISPARAM] [-S ISSUB] [-H HEADER] [-F FILTER] [-o OUTPUT] [-r REPORT] [-p PROXIES]
+                 [-pp PROXIES_TYPE] [-s STATUS_CODES]
 
 options:
   -h, --help            show this help message and exit
@@ -47,6 +47,8 @@ options:
                         this filter is checking your conditions [length:300/lines:50/word:success
   -o OUTPUT, --output OUTPUT
                         saving the output of the fuzzed paths/params
+  -r REPORT, --report REPORT
+                        use this switch to report to your telegram/discord
   -p PROXIES, --proxies PROXIES
                         .txt file, this if you wanna use proxies, Enter proxies file
   -pp PROXIES_TYPE, --proxies_type PROXIES_TYPE
@@ -67,7 +69,7 @@ options:
 		     \___|    $$\   $$ |                              
 		              \$$$$$$  |                              
 		               \______/                               
-		 V 0.0.2
+		 V 0.0.3
 
 	 ====================================================================================================
 
@@ -75,6 +77,7 @@ options:
 	 [ ! ] 	Q_URL		 : <URL>
 	 [ ! ] 	Q_Worlist	 : <PATH> [ <LIST-LINES] ]
 	 [ ! ] 	Q_Timeout	 : <TIMEOUT>
+	 [ ! ] 	Q_Report	 : <TIMEOUT>
 	 [ ! ] 	Q_Threads	 : <THREADS>
 	 [ ! ] 	Q_Output	 : <OUTPUT-FILE>
 	 [ ! ] 	Q_Header	 : <HEADERS-FILE>
@@ -93,7 +96,8 @@ options:
 	 [DOT] If site keeps replying with 404/home source, Use -U y This grap NonDuplicated length
 	 [DOT] To use the filters options run -F length-10 (or) -F lines-10 (or) 0F word-successful
 	 [DOT] If you wanna use proxies, Make sure you are using (-p) and (-pp) together
-	 [DOT] For submitting headers, Enter them in .txt file separated by new line\n
+	 [DOT] For submitting headers, Enter them in .txt file separated by new line
+	 [DOT] to report your rzlts on telegram/discord use report switch -r telegram@<ChatID> / discord@<Webhook> \n
 
 	 [INF] We all love the president @AbdelfattahElsisi cuz we are egyptians
 	 [INF] Go find more projects/tools on GITHUB@SirBugs
@@ -129,7 +133,7 @@ pip install -r requirements.txt
 # Version:
 * Version 0.0.1 (13/11/2022) : Came Out <3
 * Version 0.0.2 (14/11/2022) : Added Time, Parameters Fuzzing(Reflection), Faster, Uniq(NonDuplicated) Content Length <3
-
+* Version 0.0.3 (17/11/2022) : Added automatic telegram/discord reporting feautre <3
 
 # About Me:
 Visit My [@Twitter](https://twitter.com/SirBagoza), [@Github](https://github.com/SirBugs), [@Hackerone](https://hackerone.com/bugsv2?type=user)
