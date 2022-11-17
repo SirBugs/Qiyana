@@ -36,6 +36,7 @@ parser.add_argument("-S", "--issub", help="turn this on if you wanna fuzz subdom
 parser.add_argument("-H", "--header", help=".txt file, if you wanna enter specific header into the request")
 parser.add_argument("-F", "--filter", help="this filter is checking your conditions [length:300/lines:50/word:success")
 parser.add_argument("-o", "--output", help="saving the output of the fuzzed paths/params")
+parser.add_argument("-r", "--report", help="use this switch to report to your telegram/discord")
 parser.add_argument("-p", "--proxies", help=".txt file, this if you wanna use proxies, Enter proxies file")
 parser.add_argument("-pp", "--proxies_type", help="this is the proxies type [http/socks4/socks5] ** HAVE TO BE SENT WITH PROXIES")
 parser.add_argument("-s", "--status_codes", help="if you wanna get more status codes send it (default=200,204,301,302,307,401,403,405,500)")
@@ -56,7 +57,7 @@ def LOGO():
 	print(Fore.CYAN+"\t\t     \___|    $$\   $$ |                              "); time.sleep(0.1)
 	print(Fore.WHITE+"\t\t              \$$$$$$  |                              "); time.sleep(0.1)
 	print(Fore.CYAN+"\t\t               \______/                               ")
-	print(Fore.CYAN+"\t\t V 0.0.2\n"); time.sleep(1)
+	print(Fore.CYAN+"\t\t V 0.0.3\n"); time.sleep(1)
 def OPTIONS():
 	global _REQUEST
 	global _URI
@@ -91,11 +92,12 @@ def OPTIONS():
 	print("\t "+Fore.WHITE+"["+Fore.MAGENTA+"DOT"+Fore.WHITE+"] "+Fore.WHITE+"If site keeps replying with 404/home source, Use -U y This grap NonDuplicated length"); time.sleep(0.1)
 	print("\t "+Fore.WHITE+"["+Fore.MAGENTA+"DOT"+Fore.WHITE+"] "+Fore.CYAN+"To use the filters options run -F length-10 (or) -F lines-10 (or) 0F word-successful"); time.sleep(0.1)
 	print("\t "+Fore.WHITE+"["+Fore.MAGENTA+"DOT"+Fore.WHITE+"] "+Fore.WHITE+"If you wanna use proxies, Make sure you are using (-p) and (-pp) together"); time.sleep(0.1)
-	print("\t "+Fore.WHITE+"["+Fore.MAGENTA+"DOT"+Fore.WHITE+"] "+Fore.CYAN+"For submitting headers, Enter them in .txt file separated by new line\\n\n"); time.sleep(0.1)
-	print("\t "+Fore.WHITE+"["+Fore.BLUE+"INF"+Fore.WHITE+"] "+Fore.WHITE+"We all love the president @AbdelfattahElsisi cuz we are egyptians"); time.sleep(0.1)
-	print("\t "+Fore.WHITE+"["+Fore.BLUE+"INF"+Fore.WHITE+"] "+Fore.CYAN+"Go find more projects/tools on GITHUB@SirBugs"); time.sleep(0.1)
-	print("\t "+Fore.WHITE+"["+Fore.BLUE+"INF"+Fore.WHITE+"] "+Fore.WHITE+"Visit my TWITTER@SirBagoza HackerOne/BugCrowd@bugsv2 \n"); time.sleep(0.5)
-	print("\t "+Fore.WHITE+"["+Fore.GREEN+"UPDATE"+Fore.WHITE+"] "+Fore.CYAN+"**UPDATE: This Version is V 0.0.2 [14/11/2022] \n"); time.sleep(0.5)
+	print("\t "+Fore.WHITE+"["+Fore.MAGENTA+"DOT"+Fore.WHITE+"] "+Fore.CYAN+"For submitting headers, Enter them in .txt file separated by new line"); time.sleep(0.1)
+	print("\t "+Fore.WHITE+"["+Fore.MAGENTA+"DOT"+Fore.WHITE+"] "+Fore.WHITE+"to report your rzlts on telegram/discord use report switch -r telegram@<ChatID> / discord@<Webhook> \\n\n"); time.sleep(0.1)
+	print("\t "+Fore.WHITE+"["+Fore.BLUE+"INF"+Fore.WHITE+"] "+Fore.CYAN+"We all love the president @AbdelfattahElsisi cuz we are egyptians"); time.sleep(0.1)
+	print("\t "+Fore.WHITE+"["+Fore.BLUE+"INF"+Fore.WHITE+"] "+Fore.WHITE+"Go find more projects/tools on GITHUB@SirBugs"); time.sleep(0.1)
+	print("\t "+Fore.WHITE+"["+Fore.BLUE+"INF"+Fore.WHITE+"] "+Fore.CYAN+"Visit my TWITTER@SirBagoza HackerOne/BugCrowd@bugsv2 \n"); time.sleep(0.5)
+	print("\t "+Fore.WHITE+"["+Fore.GREEN+"UPDATE"+Fore.WHITE+"] "+Fore.WHITE+"**UPDATE: This Version is V 0.0.2 [14/11/2022] \n"); time.sleep(0.5)
 
 	print(Fore.WHITE+"\t " + "="*100 + "\r\n")
 
@@ -148,6 +150,8 @@ _HEADER = str(args.header)
 
 _DATA   = str(args.data)
 
+_REPORT = str(args.report)
+
 _PROXY  = str(args.proxies)
 if str(args.proxies) == "None" and str(args.proxies_type) == "None": _PROXY = str(args.proxies) # proxies_type
 elif str(args.proxies_type) == "None" and _PROXY != "None": pass
@@ -162,7 +166,7 @@ OPTIONS()
 #! -----------------------------------------------------------------------------------------------------------------
 
 #! Fuzzing URL Main Function
-def FUZZ_URL_DIRECTORY(_KEY):
+def FUZZER(_KEY):
 	global _REQUEST
 	global _URI
 	global _WORDLIST
@@ -269,6 +273,16 @@ def FUZZ_URL_DIRECTORY(_KEY):
 							file = open(_OUTPUT, "a+")
 							file.write(pattern + "\n")
 							file.close()
+							if _REPORT != "None":
+								if "telegram@" in _REPORT:
+									Chat_ID = _REPORT.split("telegram@")[1]
+									_R = requests.get("https://api.telegram.org/bot5619397195:AAG-d2AEOqAX1KMoB_u1DJiWK4rU61IjN0c/sendMessage?chat_id="+Chat_ID+"&parse_mode=Markdown&text="+pattern)
+								elif "discord@" in _REPORT:
+									Webhook = _REPORT.split("discord@")[1]
+									_D = {"content": pattern}
+									_R = requests.post("https://discord.com/api/webhooks/"+Webhook)
+								else:
+									pass
 
 					print("\t "+Fore.YELLOW+"[ "+Coloring_StatusCode+str(r.status_code)+Fore.YELLOW+" ]\t [ "+Fore.CYAN+str(CurrentTime)+Fore.YELLOW+" ]"+Fore.CYAN+" \t Length: "+Fore.YELLOW+str(Length)+Fore.CYAN+", Line: "+Fore.YELLOW+str(Lines)+"\t [ "+Fore.CYAN+_URL_+Fore.YELLOW+" ]\t [ "+Fore.CYAN+PRX_CONTENT+Fore.YELLOW+" ]\t [ "+Fore.CYAN+_FILTER_Applied+Fore.YELLOW+" ]\t [ "+Fore.CYAN+QIYANA_STATUS+Fore.YELLOW+" ]")
 					
@@ -290,14 +304,14 @@ def FUZZ_URL_DIRECTORY(_KEY):
 
 #for _Q in open(str(args.wordlist), "r").read().split("\n"):
 #	if _Q == "": pass
-#	else: FUZZ_URL_DIRECTORY(_Q)
+#	else: FUZZER(_Q)
 
 _STARTER = open(str(args.wordlist), "r").read().split("\n")
 
 def main():
 	pool = ThreadPool(_THREADS)
 	try:
-		results = pool.map(FUZZ_URL_DIRECTORY , _STARTER)
+		results = pool.map(FUZZER , _STARTER)
 		pool.close()
 		pool.join()
 	except KeyboardInterrupt:
